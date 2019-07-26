@@ -1,15 +1,13 @@
 package matt.stack;
 
 import java.util.Random;
+import java.util.Stack;
 
 public class Main {
 
     public static void main(String[] args){
 
-        String randomString = null;
-
         IStringStack stack = new StackArray();
-
         testStack(stack);
     }
 
@@ -17,28 +15,25 @@ public class Main {
 
         String[] testArray = new String[100000];
         Random r = new Random();
-        boolean equal = true;
 
         //String.valueOf(randomNumber);
 
-        //Generate testArray
+        //Generate a bunch of nodes and add them to the stack one after another.
         for(int i = 0; i < 100000; i++) {
             testArray[i] = String.valueOf(Math.abs(r.nextInt()));
-        }
-        //Add testArray to the Stack
-        for(int i = 0; i < 100000; i++) {
             stack.add(testArray[i]);
         }
+
         //See if the testArray and the Stack are equal
         for(int i = testArray.length - 1; i >= 0; i--) {
-            if (!stack.get().equals(testArray[i])) equal = false;
 
-            System.out.println(stack.get() + " " + testArray[i]);
-            stack.removeLast();
+            if (!stack.isEmpty()) {
+                System.out.println(stack.get() + " " + testArray[i]);
+                stack.removeLast();
+            }
         }
 
-        System.out.println(equal);
-
-
+        System.currentTimeMillis();
     }
+
 }

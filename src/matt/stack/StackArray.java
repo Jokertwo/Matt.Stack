@@ -1,60 +1,50 @@
 package matt.stack;
 
+import java.util.Stack;
+
 public class StackArray implements IStringStack {
 
-    private String[] data;
-    private int freeIndex;
-    private int capacity;
+    private StackNode last;
 
     public StackArray(){
-        capacity = 5;
-        data = new String[capacity];
-        freeIndex = 0;
-            }
+
+    }
 
     @Override
     public void add(String s) {
 
-        if(freeIndex == data.length){
-            expandArray(capacity * 2);
-        }
+        StackNode newStackNode = new StackNode();
+        newStackNode.setData(s);
 
-        data[freeIndex] = s;
-        freeIndex++;
+        if (last == null) {
+            last = newStackNode;
+        } else {
+            newStackNode.setLast(last);
+            last = newStackNode;
+        }
     }
 
     @Override
     public String get() {
-        return data[freeIndex - 1];
+        return last.getData();
     }
 
     @Override
     public void removeLast() {
-        data[freeIndex - 1] = null;
-        freeIndex--;
+        if (last != null) {
+            last = last.getLast();
+        } else {
+            System.out.println("Nothing in the queue...");
+        }
     }
 
-    @Override
-    public void expandArray(int capacity) {
+    public boolean isEmpty() {
+        boolean isEmpty = false;
 
-        //Set temp to new array with capacity of data(capacity*2)
-        String[] temp = new String[capacity];
-
-        //Copy the contents of the stack into the temp stack
-        for (int i = 0; i < freeIndex; i++){
-            temp[i] = data[i];
+        if (last == null) {
+            isEmpty = true;
         }
 
-        //update capacity and set data equal to temp
-        this.capacity = capacity;
-        data = temp;
-
-    }
-
-    @Override
-    public void print(){
-        for(int i = capacity - 1; i >= 0; i--){
-            System.out.println(data[i]);
-        }
+        return isEmpty;
     }
 }
